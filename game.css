@@ -1,0 +1,26 @@
+.background    { background: url("http://a1star.com/images/star-tile-far-away.jpg");
+                 table-layout: fixed;
+                 border-spacing: 0;   }
+.background td { padding: 0;          }
+.lava          { background: purple;
+			opacity: 0.6;	
+ }
+.coin  { background: url("http://orig15.deviantart.net/0949/f/2011/269/1/f/sprite_cookie_by_arianatheechidna-d4b011b.gif");  } 
+.wall   { background: grey;   }
+.actor  { position: absolute;  }
+.player { background: url("http://orig01.deviantart.net/fa45/f/2014/041/b/4/b40d1e0848f65bc6e94529054bb138f3-d75ybjw.gif"); }
+.enemy {background: url("http://img4.wikia.nocookie.net/__cb20100304220315/fantendo/images/8/83/King_Boo_MM2_Sprite.png"); }
+.floater    { background: url("http://forums.terraria.org/index.php?attachments/meteor-pet-png.8848/")    }
+.game {
+  overflow: hidden;
+  max-width: 600px;
+  max-height: 450px;
+  position: relative;
+}
+.lost .player {
+  background: url("http://www.spielprogrammierung.ch/bb/sprites/explosion1.gif");
+  background-size: 65px 60px;
+}
+.won .player {
+  background: url("http://4.bp.blogspot.com/-muKdfaYPaeI/Uw6-596IyEI/AAAAAAAAAfE/B1t5NUG3Zts/s1600/58-Well_done_sticker.png");
+  background-size: 65px 40px;
