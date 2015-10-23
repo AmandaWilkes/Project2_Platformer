@@ -9,8 +9,10 @@
 .wall   { background: grey;   }
 .actor  { position: absolute;  }
 .player { background: url("http://orig01.deviantart.net/fa45/f/2014/041/b/4/b40d1e0848f65bc6e94529054bb138f3-d75ybjw.gif"); }
-.enemy {background: url("http://img4.wikia.nocookie.net/__cb20100304220315/fantendo/images/8/83/King_Boo_MM2_Sprite.png"); }
-.floater    { background: url("http://forums.terraria.org/index.php?attachments/meteor-pet-png.8848/")    }
+.enemy {background: url("http://mcmodguides.com/images/Grid_Portable_Hole.png"); }
+.floater    { background: url("http://img2.wikia.nocookie.net/__cb20120513160415/kirby/en/images/9/98/KDC_Warp_Star_sprite.png");
+            opacity: 0.6;
+    }
 .game {
   overflow: hidden;
   max-width: 600px;
@@ -19,8 +21,9 @@
 }
 .lost .player {
   background: url("http://www.spielprogrammierung.ch/bb/sprites/explosion1.gif");
-  background-size: 65px 60px;
+  background-size: 65px 40px;
 }
 .won .player {
   background: url("http://4.bp.blogspot.com/-muKdfaYPaeI/Uw6-596IyEI/AAAAAAAAAfE/B1t5NUG3Zts/s1600/58-Well_done_sticker.png");
   background-size: 65px 40px;
+}
