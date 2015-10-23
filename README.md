@@ -1,3 +1,2 @@
 # Project2_Platformer
-Project 2 code
-code
+Project 2 Code
