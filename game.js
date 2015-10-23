@@ -3,7 +3,7 @@ var actorChars = {
   "@": Player,
   "o": Coin, // A coin will wobble up and down
   "=": Lava, "|": Lava, "v": Lava, 
-  "e": Enemy, //add an enemy
+  "e": Enemy, "-": Enemy, "+": Enemy,//add an enemy
   "f": floater
 };
   function Level(plan) {
@@ -96,32 +96,40 @@ Level.prototype.isFinished = function() {
   this.size = new Vector(1, 1);
   if (ch == "=") {
     // Horizontal lava
-    this.speed = new Vector(2, 0);
+    this.speed = new Vector(1.5, 0);
   } else if (ch == "|") {
     // Vertical lava
-    this.speed = new Vector(0, 2);
+    this.speed = new Vector(0, 1.5);
   } else if (ch == "v") {
     // Drip lava. Repeat back to this pos.
-    this.speed = new Vector(0, 3);
+    this.speed = new Vector(0, 2.8);
     this.repeatPos = pos;
   }
 }
  Lava.prototype.type = "lava";
 
  
- function Enemy(pos) {
-   this.basePos = this.pos = pos.plus(new Vector(0, -1.2));
-   this.size = new Vector(2, 2);
-   // Make it go back and forth in a sine wave.
-   this.wobble = Math.random() * Math.PI * 5;
+ function Enemy(pos, ch) {
+  this.pos = pos;
+  this.size = new Vector(1.5, 1.5);
+  if (ch == "e") {
+    
+    this.speed = new Vector(1.2, 0);
+  } else if (ch == "-") {
+    
+    this.speed = new Vector(0, 1.2);
+  } else if (ch == "+") {
+    
+    this.speed = new Vector(0, 3);
+    this.repeatPos = pos;
+  }
 }
  Enemy.prototype.type = "enemy";
+
  
   function floater(pos) {
    this.basePos = this.pos = pos.plus(new Vector(0, 0));
    this.size = new Vector(1.2, 1.2);
-   // Make it go back and forth in a sine wave.
-   this.speed = Math.random() * Math.PI * 5;
 }
  floater.prototype.type = "floater";
  
@@ -323,11 +331,14 @@ Coin.prototype.act = function(step) {
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
 
-Enemy.prototype.act = function(step) {
-  this.wobble += step * wobbleSpeed;
-  //var wobblePos = Math.sin(this.wobble) * wobbleDist;
-  //this.pos = this.basePos.plus(new Vector(0, wobblePos));
-  
+ Enemy.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
+  if (!level.obstacleAt(newPos, this.size))
+    this.pos = newPos;
+  else if (this.repeatPos)
+    this.pos = this.repeatPos;
+  else
+    this.speed = this.speed.times(-1);
 };
 
 floater.prototype.act = function(step) {
@@ -397,11 +408,13 @@ var maxStep = 0.05;
   if (otherActor)
     level.playerTouched(otherActor.type, otherActor);
   // Losing animation
-  if (level.status == "lost") {
-    this.pos.y += step;
-    this.size.y -= step;
-  }
+ // if (level.status == "lost") {
+ //   this.pos.y += step;
+ //   this.size.y -= step;
+//	 }
  };
+ 
+ var randomWarpLocation = 0;
  
  Level.prototype.playerTouched = function(type, actor) {
   
@@ -410,7 +423,12 @@ var maxStep = 0.05;
   if (type == "lava" && this.status == null) {
     this.status = "lost";
     this.finishDelay = 1;
-  } else if (type == "coin") {
+  } 
+ //   if (type == "enemy" && this.status == null) {
+ //   this.status = "lost";
+//    this.finishDelay = 1;
+//  }
+  else if (type == "coin") {
      this.actors = this.actors.filter(function(other) {
        return other != actor;
      });
@@ -428,8 +446,26 @@ var maxStep = 0.05;
 	for (i=0; i<this.actors.length; i++){
 		if (this.actors[i].type=="player"){
 			console.log(this.actors[i].pos.x + " " + i);
-			this.actors[i].pos.x=6;
-			this.actors[i].pos.y=10;
+			if (randomWarpLocation == 0){
+				this.actors[i].pos.x=32;
+				this.actors[i].pos.y=0;
+				randomWarpLocation++;
+			}
+			else {
+			   if(randomWarpLocation == 1){
+				this.actors[i].pos.x=70;
+				this.actors[i].pos.y=0;
+				randomWarpLocation++;
+			   }
+			   else {
+					if(randomWarpLocation == 2){
+					this.actors[i].pos.x=50;
+					this.actors[i].pos.y=0;
+					randomWarpLocation=0;
+					}
+				}
+			}
+	
 		}
 	}
   }
@@ -515,7 +551,7 @@ function runLevel(level, Display, andThen) {
       else if (n < plans.length - 1)
         startLevel(n + 1);
       else
-        console.log("You win!");
+        document.write("<img class='rotating-item' src='http://www.giftbasketsplus.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/4/6/4678_1.jpg'</img>");
     });
    }
    startLevel(0);
